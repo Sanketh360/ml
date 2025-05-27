@@ -137,3 +137,72 @@ plt.show()
 # Plot pairwise relationships between features
 sns.pairplot(data, diag_kind='kde')
 plt.show()
+
+
+
+
+# program 3 
+
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+from sklearn.decomposition import PCA
+
+# Load Iris dataset
+iris = load_iris()
+data = iris.data
+labels = iris.target
+label_names = iris.target_names
+
+# Perform PCA to reduce to 2 dimensions
+pca = PCA(n_components=2)
+data_2d = pca.fit_transform(data)
+
+# Plot the PCA-reduced data
+plt.figure(figsize=(8, 6))
+colors = ['red', 'green', 'blue']
+
+for i, label in enumerate(np.unique(labels)):
+    plt.scatter(
+        data_2d[labels == label, 0],  # PC1
+        data_2d[labels == label, 1],  # PC2
+        color=colors[i],
+        label=label_names[label]
+    )
+
+plt.title('PCA on Iris Dataset')
+plt.xlabel('Principal Component 1')
+plt.ylabel('Principal Component 2')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+
+
+# program 4
+
+
+import pandas as pd
+
+def find_s(file_path):
+    data = pd.read_csv(file_path)
+    print("Training Data:\n", data)
+
+    hypothesis = ['?'] * (data.shape[1] - 1)
+
+    for _, row in data.iterrows():
+        if row.iloc[-1] == 'Yes':  # Only consider positive examples
+            for i in range(len(hypothesis)):
+                if hypothesis[i] == '?':
+                    hypothesis[i] = row.iloc[i]
+                elif hypothesis[i] != row.iloc[i]:
+                    hypothesis[i] = '?'
+
+    return hypothesis
+
+# File path to your training data CSV
+file_path = r'C:\Users\sanke\Documents\AI Lab Jupyter\training.csv'
+final_hypothesis = find_s(file_path)
+print("\nFinal Hypothesis:", final_hypothesis)
