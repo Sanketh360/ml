@@ -401,3 +401,45 @@ plt.xlabel("Principal Component 1")
 plt.ylabel("Principal Component 2")
 plt.legend()
 plt.show()
+
+
+
+# program 5
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+from collections import Counter
+
+data = np.random.rand(100)
+train_data = data[:50]
+test_data = data[50:]
+train_labels = ["Class1" if x <= 0.5 else "Class2" for x in train_data]
+
+def classify(test_point, k):
+    distances = [(abs(test_point - x), label) 
+                 for x, label in zip(train_data, train_labels)]
+    distances.sort(key=lambda x: x[0])
+    top_k = [label for _, label in distances[:k]]
+    return Counter(top_k).most_common(1)[0][0]
+
+for k in [1, 2, 3, 4, 5, 20, 30]:
+    print(f"\n--- Results for k = {k} ---")
+    predictions = [classify(x, k) for x in test_data]
+    
+    for i, label in enumerate(predictions, start=51):
+        print(f"x{i} = {test_data[i-51]:.3f} → {label}")
+    
+    class1_points = [x for i, x in enumerate(test_data) if predictions[i] == "Class1"]
+    class2_points = [x for i, x in enumerate(test_data) if predictions[i] == "Class2"]
+    
+    plt.figure(figsize=(8, 3))
+    plt.scatter(train_data, [0]*50, c=['blue' if l == "Class1" else 'red' for l in train_labels], marker='o', label='Train')
+    plt.scatter(class1_points, [1]*len(class1_points), c='blue', marker='x', label='Class1 (Test)')
+    plt.scatter(class2_points, [1]*len(class2_points), c='red', marker='x', label='Class2 (Test)')
+    plt.title(f"k = {k}")
+    plt.yticks([0, 1], ['Train', 'Test'])
+    plt.grid(True)
+    plt.legend()
+    plt.show()
+
