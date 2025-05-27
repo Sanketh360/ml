@@ -116,3 +116,24 @@ for col in features:
 # Print summary statistics of dataset
 print("\nSummary:")
 print(df.describe())
+
+
+
+# program 2
+
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.datasets import fetch_california_housing
+
+# Load the California Housing dataset as a DataFrame
+data = fetch_california_housing(as_frame=True).frame
+
+# Plot correlation matrix using a heatmap
+sns.heatmap(data.corr(), annot=True, cmap='coolwarm', fmt='.2f', linewidths=0.5)
+plt.title('Correlation Matrix')
+plt.show()
+
+# Plot pairwise relationships between features
+sns.pairplot(data, diag_kind='kde')
+plt.show()
