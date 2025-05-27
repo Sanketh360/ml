@@ -319,6 +319,9 @@ print(f"Accuracy: {accuracy * 100:.2f}%")
 print("\nClassification Report:")
 print(classification_report(y_test, y_pred, zero_division=1))
 
+print("\nConfusion Matrix:")
+print(confusion_matrix(y_test, y_pred))
+
 # 6. Show 15 test images with predictions
 fig, axes = plt.subplots(3, 5, figsize=(12, 6))
 for ax, img, true, pred in zip(axes.ravel(), X_test, y_test, y_pred):
