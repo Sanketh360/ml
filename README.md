@@ -206,3 +206,48 @@ def find_s(file_path):
 file_path = r'C:\Users\sanke\Documents\AI Lab Jupyter\training.csv'
 final_hypothesis = find_s(file_path)
 print("\nFinal Hypothesis:", final_hypothesis)
+
+
+
+
+# program 6 
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+def gaussian_kernel(x, xi, tau):
+    return np.exp(- (x - xi)**2 / (2 * tau**2))
+
+def predict(x, X, y, tau):
+    m = len(X)
+    
+    weights = [gaussian_kernel(x, X[i], tau) for i in range(m)]
+    W = np.diag(weights)
+    
+    X_bias = np.c_[np.ones(m), X]
+
+    A = X_bias.T @ W @ X_bias
+    b = X_bias.T @ W @ y
+    theta = np.linalg.pinv(A) @ b
+
+    return theta[0] + theta[1] * x
+
+X = np.linspace(0, 2 * np.pi, 50)
+y = np.sin(X) + 0.1 * np.random.randn(50)
+
+x_test = np.linspace(0, 2 * np.pi, 200)
+tau = 0.3
+
+y_pred = [predict(xi, X, y, tau) for xi in x_test]
+
+plt.figure(figsize=(8, 5))
+plt.scatter(X, y, color='red', label='Data Points')
+plt.plot(x_test, y_pred, color='blue', label='LWR Fit')
+plt.title('Locally Weighted Regression (Easy Version)')
+plt.xlabel('X')
+plt.ylabel('y')
+plt.legend()
+plt.grid(True)
+plt.show()
+
