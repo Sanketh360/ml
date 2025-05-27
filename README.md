@@ -330,3 +330,74 @@ for ax, img, true, pred in zip(axes.ravel(), X_test, y_test, y_pred):
     ax.axis('off')
 plt.tight_layout()
 plt.show()
+
+
+
+# program 10
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.datasets import load_breast_cancer
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+from sklearn.metrics import confusion_matrix, classification_report
+
+# 1. Load the breast cancer dataset
+data = load_breast_cancer()
+X, y = data.data, data.target  # X = features, y = labels (0 = malignant, 1 = benign)
+
+# 2. Scale the features
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+# 3. Apply K-Means clustering
+kmeans = KMeans(n_clusters=2, random_state=42)
+y_kmeans = kmeans.fit_predict(X_scaled)
+
+# 4. Evaluate clustering performance
+print("Confusion Matrix:\n", confusion_matrix(y, y_kmeans))
+print("\nClassification Report:\n", classification_report(y, y_kmeans))
+
+# 5. Reduce dimensions to 2D using PCA for visualization
+pca = PCA(n_components=2)
+X_pca = pca.fit_transform(X_scaled)
+
+# 6. Create a DataFrame for plotting
+df = pd.DataFrame(X_pca, columns=['PC1', 'PC2'])
+df['Cluster'] = y_kmeans
+df['True Label'] = y
+
+# 7. Plot clusters found by K-Means
+plt.figure(figsize=(8, 5))
+sns.scatterplot(data=df, x='PC1', y='PC2', hue='Cluster', palette='Set1')
+plt.title("K-Means Clusters")
+plt.xlabel("Principal Component 1")
+plt.ylabel("Principal Component 2")
+# plt.legend(title="Cluster")
+plt.show()
+
+# 8. Plot actual labels from the dataset
+plt.figure(figsize=(8, 5))
+sns.scatterplot(data=df, x='PC1', y='PC2', hue='True Label', palette='coolwarm')
+plt.title("Actual Labels")
+plt.xlabel("Principal Component 1")
+plt.ylabel("Principal Component 2")
+plt.legend(title="True Label")
+plt.show()
+
+# 9. Plot clusters with centroids (in 2D)
+plt.figure(figsize=(8, 5))
+sns.scatterplot(data=df, x='PC1', y='PC2', hue='Cluster', palette='Set1')
+
+# Transform K-Means centroids into 2D using the same PCA
+centroids_2D = pca.transform(kmeans.cluster_centers_)
+plt.scatter(centroids_2D[:, 0], centroids_2D[:, 1], color='black', s=200, marker='X', label='Centroids')
+
+plt.title("K-Means Clusters with Centroids")
+plt.xlabel("Principal Component 1")
+plt.ylabel("Principal Component 2")
+plt.legend()
+plt.show()
