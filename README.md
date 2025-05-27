@@ -251,3 +251,39 @@ plt.legend()
 plt.grid(True)
 plt.show()
 
+
+
+# program 8
+
+
+import numpy as np
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier, export_text
+
+
+data = load_breast_cancer()
+X = data.data
+y = data.target
+
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+
+model = DecisionTreeClassifier(max_depth=4, random_state=42)
+model.fit(X_train, y_train)
+
+
+accuracy = model.score(X_test, y_test)
+print(f"Accuracy: {accuracy:.2f}")
+
+
+rules = export_text(model, feature_names=data.feature_names.tolist())
+print("\nDecision Tree Rules:\n", rules)
+
+# 6. Predict a new case
+sample = X_test[0].reshape(1, -1)
+pred = model.predict(sample)[0]
+print("\nPrediction for Sample 0:", "Malignant" if pred == 0 else "Benign")
+
+
