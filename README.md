@@ -80,7 +80,8 @@ import seaborn as sns
 from sklearn.datasets import fetch_california_housing
 
 # Load dataset
-df = fetch_california_housing(as_frame=True).frame
+# df = fetch_california_housing(as_frame=True).frame
+df = pd.read_csv("california_housing.csv")
 
 # Select numerical features
 features = df.select_dtypes(include=[np.number]).columns
@@ -127,7 +128,8 @@ import matplotlib.pyplot as plt
 from sklearn.datasets import fetch_california_housing
 
 # Load the California Housing dataset as a DataFrame
-data = fetch_california_housing(as_frame=True).frame
+# data = fetch_california_housing(as_frame=True).frame
+data = pd.read_csv("california_housing.csv")
 print(data.head())
 correlation_matrix = data.corr()
 print("\n Correlation Martix")
