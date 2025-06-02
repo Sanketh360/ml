@@ -187,6 +187,47 @@ plt.show()
 
 
 
+# pro 3
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+
+# Load dataset from CSV
+iris = pd.read_csv("iris_dataset.csv")
+
+# Separate features and labels
+data = iris.iloc[:, :-1]
+labels = iris.iloc[:, -1]
+
+# Perform PCA
+pca = PCA(n_components=2)
+data_2d = pca.fit_transform(data)
+
+# Use numeric labels: 0 = setosa, 1 = versicolor, 2 = virginica
+colors = {0: 'red', 1: 'green', 2: 'blue'}
+label_names = {0: 'setosa', 1: 'versicolor', 2: 'virginica'}
+
+plt.figure(figsize=(8, 6))
+for label in labels.unique():
+    plt.scatter(
+        data_2d[labels == label, 0],
+        data_2d[labels == label, 1],
+        color=colors[label],
+        label=label_names[label]
+    )
+
+plt.title('PCA on Iris Dataset')
+plt.xlabel('Principal Component 1')
+plt.ylabel('Principal Component 2')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+
+
+
 # program 4
 
 
