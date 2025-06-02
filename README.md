@@ -332,6 +332,62 @@ plt.show()
 
 
 
+
+# pro 6
+
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Gaussian kernel to calculate weight based on distance
+def kernel(x0, x_values, tau):
+    return np.exp(- (x_values - x0) ** 2 / (2 * tau ** 2))
+
+# Predict the value at one point using weighted linear regression
+def predict(x0, x_values, y_values, tau):
+    weights = kernel(x0, x_values, tau)
+    W = np.diag(weights)  # Make weights into a diagonal matrix
+
+    # Add a column of 1s to x_values (for intercept/bias term)
+    X = np.c_[np.ones(len(x_values)), x_values]
+
+    # Normal equation with weights
+    theta = np.linalg.pinv(X.T @ W @ X) @ (X.T @ W @ y_values)
+
+    # Return predicted value at x0
+    return theta[0] + theta[1] * x0
+
+# Load the dataset (use only 150 rows to keep it fast)
+data = pd.read_csv("california_housing.csv").head(150)
+
+# Use 'AveRooms' as input (x), and 'HouseAge' as output (y)
+x_data = data['AveRooms'].values
+y_data = data['HouseAge'].values
+
+# Create 50 test points between min and max of x
+x_test = np.linspace(min(x_data), max(x_data), 50)
+
+# Set smoothing parameter (bigger = smoother curve)
+tau = 5.0
+
+# Predict y values for all x_test points
+y_test = [predict(x, x_data, y_data, tau) for x in x_test]
+
+# Plot the results
+plt.scatter(x_data, y_data, color='red', label='Actual Data', alpha=0.5)
+plt.plot(x_test, y_test, color='blue', label='LWR Prediction')
+plt.title('Simple Locally Weighted Regression')
+plt.xlabel('AveRooms')
+plt.ylabel('HouseAge')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+
+
+
+
 # program 8
 
 
