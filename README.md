@@ -205,7 +205,7 @@ labels = iris.iloc[:, -1]
 pca = PCA(n_components=2)
 data_2d = pca.fit_transform(data)
 
-# Use numeric labels: 0 = setosa, 1 = versicolor, 2 = virginica
+
 colors = {0: 'red', 1: 'green', 2: 'blue'}
 label_names = {0: 'setosa', 1: 'versicolor', 2: 'virginica'}
 
