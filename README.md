@@ -90,7 +90,7 @@ n = len(features)
 rows, cols = -(-n // 3), 3  # Ceiling division to get rows needed for 3 columns
 
 # Plot histograms of all numerical features in a grid
-df[features].hist(bins=30, figsize=(15, 5 * rows), color='blue', layout=(rows, cols))
+df[features].hist(bins=30, figsize=(15, 5 * rows), color='blue', edgecolor = "black " ,layout=(rows, cols))
 plt.suptitle("Histograms of Features", fontsize=16)
 plt.tight_layout()
 plt.show()
