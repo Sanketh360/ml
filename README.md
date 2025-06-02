@@ -255,6 +255,38 @@ final_hypothesis = find_s(file_path)
 print("\nFinal Hypothesis:", final_hypothesis)
 
 
+# program 5 
+
+
+import numpy as np
+from sklearn.neighbors import KNeighborsClassifier
+
+# Set seed and generate data
+np.random.seed(0)
+data = np.random.rand(100)
+
+# Prepare training and test sets
+train_x = data[:50].reshape(-1, 1)
+train_y = ["Class1" if x <= 0.5 else "Class2" for x in data[:50]]
+test_x = data[50:].reshape(-1, 1)
+
+# Try different k values
+k_values = [1, 2, 3, 4, 5, 20, 30]
+
+for k in k_values:
+    print(f"\n--- Results for k = {k} ---")
+    
+    # Initialize and train the KNN classifier
+    model = KNeighborsClassifier(n_neighbors=k)
+    model.fit(train_x, train_y)
+    
+    # Predict on test data
+    predictions = model.predict(test_x)
+    
+    for i, (x_val, pred) in enumerate(zip(test_x.ravel(), predictions), start=51):
+        print(f"x{i} = {x_val:.3f} → {pred}")
+
+
 
 
 # program 6 
