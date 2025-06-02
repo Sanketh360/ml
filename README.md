@@ -386,6 +386,48 @@ plt.show()
 
 
 
+# program 7
+
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.model_selection import train_test_split
+
+data = pd.read_csv("california_housing.csv")
+x=data[["AveRooms"]]
+y=data["MedHouseVal"]
+
+x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.2,random_state=0)
+
+model=LinearRegression()
+model.fit(x_train,y_train)
+y_pred=model.predict(x_test)
+
+plt.scatter(x_test,y_test,color="skyblue",edgecolor="blue",label="Actual")
+plt.scatter(x_test,y_pred,color="orange",edgecolor="red",label="linear")
+plt.title("linear Regression")
+plt.grid(True)
+plt.legend()
+plt.show()
+
+poly=PolynomialFeatures(degree=3)
+x_train_poly=poly.fit_transform(x_train)
+x_test_poly=poly.transform(x_test)
+
+model.fit(x_train_poly,y_train)
+y_pred_poly = model.predict(x_test_poly)
+
+plt.scatter(x_test,y_test,color="lightgreen",edgecolor="green",label="Actual")
+plt.scatter(x_test,y_pred_poly,color="orange",edgecolor="red",label="poly")
+plt.title("poly Regression")
+plt.grid(True)
+plt.legend()
+plt.show()
+
+
 
 
 # program 8
