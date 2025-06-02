@@ -77,7 +77,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.datasets import fetch_california_housing
+# from sklearn.datasets import fetch_california_housing
 
 # Load dataset
 # df = fetch_california_housing(as_frame=True).frame
@@ -125,7 +125,7 @@ print(df.describe())
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-from sklearn.datasets import fetch_california_housing
+# from sklearn.datasets import fetch_california_housing
 
 # Load the California Housing dataset as a DataFrame
 # data = fetch_california_housing(as_frame=True).frame
