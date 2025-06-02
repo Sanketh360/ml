@@ -581,6 +581,49 @@ plt.show()
 
 
 
+
+
+# program 10
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+from sklearn.decomposition import PCA
+
+# 1. Load the dataset from CSV file
+data = pd.read_csv("breast_cancer.csv")
+
+# 2. Separate features and (optional) labels
+X = data.iloc[:, :-1]   # All columns except the last (features)
+y = data.iloc[:, -1]    # Last column (actual labels – not used in clustering)
+
+# 3. Standardize the feature values (important for clustering)
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+# 4. Apply K-Means Clustering with 2 clusters (malignant & benign)
+kmeans = KMeans(n_clusters=2, random_state=42, n_init=10)
+kmeans.fit(X_scaled)
+labels = kmeans.labels_   # Predicted cluster for each data point
+
+# 5. Use PCA to reduce dimensions to 2 for plotting
+pca = PCA(n_components=2)
+X_2D = pca.fit_transform(X_scaled)
+
+# 6. Visualize the clustered data
+plt.figure(figsize=(8, 6))
+plt.scatter(X_2D[:, 0], X_2D[:, 1], c=labels, cmap='coolwarm', alpha=0.7)
+plt.title("K-Means Clustering (Breast Cancer Data)")
+plt.xlabel("PCA Component 1")
+plt.ylabel("PCA Component 2")
+plt.colorbar(label="Cluster (0 or 1)")
+plt.grid(True)
+plt.show()
+
+
+
+
 # program 5
 
 
