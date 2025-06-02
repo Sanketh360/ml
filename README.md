@@ -128,6 +128,10 @@ from sklearn.datasets import fetch_california_housing
 
 # Load the California Housing dataset as a DataFrame
 data = fetch_california_housing(as_frame=True).frame
+print(data.head())
+correlation_matrix = data.corr()
+print("\n Correlation Martix")
+print(correlation_matrix)
 
 # Plot correlation matrix using a heatmap
 sns.heatmap(data.corr(), annot=True, cmap='coolwarm', fmt='.2f', linewidths=0.5)
